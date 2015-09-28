@@ -1,4 +1,4 @@
-*The end is nigh!*
+*Zombie Translator*
 But we can prepare. In this assignment we will begin preparing for the end by creating a simple zombie translator. This can be used by the living for either concealment or bartering and the living impaired will have an easier time asking for brains. 
 
 The translator can be done as a series of regular expressions (Links to an external site.) or you can step through it character by character. You get a string and you transform that string. 

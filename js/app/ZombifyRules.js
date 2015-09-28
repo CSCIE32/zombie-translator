@@ -1,18 +1,23 @@
 define(['ZombieRule'], function(ZombieRule){
 
     var ZombifyRules = function(){
-        var _zombifyRules = [];
+        var _zombifyRules = new Array();
+
+        // //8. "r" or "R' is replaced by "RR"`
+        _zombifyRules.push(new ZombieRule(/r(?!\b)|R/g , 'RR'));
+
 
         // 1. lower-case "r" at the end of words replaced with "rh".
         _zombifyRules.push(new ZombieRule(/r\b/g, 'rh'));
 
-        // 2. an "a" or "A" by itself will be replaced with "hra".
-        _zombifyRules.push(new ZombieRule(/\ba\b/gi, 'hra'));
+        // 2. an "a" or "A" will be replaced with "hra".
+        _zombifyRules.push(new ZombieRule(/a/gi, 'hra'));
 
-        // 3. the starts of sentences are capitalised (the "start of a sentence" is any occurrence of
-        //   ".!?", followed by a space, followed by a letter.)
-        // TODO:
-        //_zombifyRules.push(new ZombieRule());
+        // 3. the starts of sentences are capitalized (the "start of a sentence" is any occurrence of ".!?",
+        // followed by a space, followed by a letter.)
+        _zombifyRules.push(new ZombieRule(/\.\!\?\s./g, function(a){
+            return(a.toUpperCase());
+        }));
 
         // 4. "e" or "E" is replaced by "rr"
         _zombifyRules.push(new ZombieRule(/e/gi, 'rr'));
@@ -26,17 +31,20 @@ define(['ZombieRule'], function(ZombieRule){
         // 7. "u" or "U" is replaced by "rrrrRr"
         _zombifyRules.push(new ZombieRule(/u/gi, 'rrrrRr'));
 
-        // 8. "r" or "R' is replaced by "RR"`
-        _zombifyRules.push(new ZombieRule(/r(?![^r]\b)/gi, 'RR'));
+        // Couple of custom rules
+        // 9. "p" or "P" will be replaced with "fhh".
+        _zombifyRules.push(new ZombieRule(/p/gi, 'fhh'));
 
-        //TODO: ADD 2 CUSTOM RULES
-        //_zombifyRules.push(new ZombieRule());
-
-        //_zombifyRules.push(new ZombieRule());
+        // 10. an "t" or "T" will be replaced with "TH".
+        _zombifyRules.push(new ZombieRule(/t/gi, 'TH'));
 
 
         ZombifyRules.prototype.getRules = function(){
             return _zombifyRules;
+        };
+
+        ZombifyRules.prototype.removeAllRules = function(){
+            _zombifyRules = new Array();
         };
 
     };

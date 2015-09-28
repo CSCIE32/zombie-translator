@@ -1,52 +1,123 @@
-*Zombie Translator*
-But we can prepare. In this assignment we will begin preparing for the end by creating a simple zombie translator. This can be used by the living for either concealment or bartering and the living impaired will have an easier time asking for brains. 
-
-The translator can be done as a series of regular expressions (Links to an external site.) or you can step through it character by character. You get a string and you transform that string. 
+# Zombie Translator
+The Zombie Translator app is the last hope for the resistance! This app encapsulates carefully thought out rules that separates them from us.
+This translator is a series of regular expressions executed in a specific order to convert from english to zombie or vise versa .
 
 ## The Rules
 
-There are some sample rules contained in the skeleton source code and are as follows:
+Below are the rules implemented by this translator
 
-lower-case "r" at the end of words replaced with "rh".
-an "a" or "A" by itself will be replaced with "hra".
-the starts of sentences are capitalized (the "start of a sentence" is any occurrence of ".!?", followed by a space, followed by a letter.)
-"e" or "E" is replaced by "rr"
-"i" or "I" is replaced by "rrRr"
-"o" or "O" is replaced by "rrrRr"
-"u" or "U" is replaced by "rrrrRr"
-"r" or "R" is replaced by "RR"
+1. lower-case "r" at the end of words replaced with "rh".
+2. an "a" or "A" will be replaced with "hra".
+3. the starts of sentences are capitalized (the "start of a sentence" is any occurrence of ".!?", followed by a space, followed by a letter.)
+4. "e" or "E" is replaced by "rr"
+5. "i" or "I" is replaced by "rrRr"
+6. "o" or "O" is replaced by "rrrRr"
+7. "u" or "U" is replaced by "rrrrRr"
+8. "r" or "R" is replaced by "RR"
+10. "t" or "T" is replaced by "TH"
+11. "p" or "P" is replaced by "fhh"
+
+All rules are mutually exclusive of each other, except rule #3. That is the first letter of the sentence will be captitalized even if if the first char is the result of other rules.
+For example, zombify('.!? r') would be '.!? Rh' after applying rules #1 and #3.  
  
-*There should be 10 rules total. So make 2 rules up. Each rule should be a separate function. Edited out. Unnecessary*
+## The Modules
+The app is composed of the following modules.
 
-Make use of 3 different jasmine "expect" methods per rule. http://jasmine.github.io/2.3/introduction.html (Links to an external site.) Zombies are known to be able to repeat the same statements over and over. We want to make sure the rules are not written by the undead and aren't just a list of expect(myFunc('i')).toBe('rrRr');
+### ZombieTranslator
+This module consists of the business logic to zombify or unzombify. The rules for translation is separated out into another module.  
 
-For example:
-```
-expect(30).toBe(30);
-expect(undefinedVariable).toBeUndefined();
-expect('30').toContain('0');
-expect(callback).not.toHaveBeenCalledWith(jasmine.stringMatching(/^bar$/));
-```
+### ZombieTranslatorView
+This module has the DOM functions for the Zombie Translator UI.
+
+### ZombifyRules
+This module has all the rules that the translator would use to zombify sentences in english. The translator should excute the rules in the same order as provided by this module.
+Provides interfaces to get all rules currently defined and add more rules. 
+
+### ZombieRule
+This module is used to represent a zombie rule which consinsts of a regexValue and replaceValue. The translator would use each rule to find a match for the regex and replace. 
+
  
-What really matters is the structure. The last thing the resistance needs is for zombies to write false translators to trick us. We need to make sure a human, professional developer created the zombie translator. We all know zombies don't know how to write modular code, and they never test. 
+## The Tests or Specs 
 
-Each of the rules needs to be modular enough to test separately. There should also be a test for the entire function. 
+Below is the testing approach for this app. Most of the tests verify one rule at a time (as if the translator had just that one rule).
+There a few tests that tests all the rules together.
+ 
+### Verifying Rule 1 
+* should replace lower-case "r" at the end of words  with "rh"
+    + expect(zombify('errr erR purr')).toBe('errrh erR purrh'); // Test ends with caps and lower
+    + expect(zombify('r')).toBe('rh'); // Just r
+* should not replace Upper Case "r" at the end of words with "rh"
+    + expect(zombify('faR and neaR')).toBe('faR and neaR');
+* should not replace Upper or Lower Case "r" not at the end of words with "rh"'
+    + expect(zombify('Errors in Report')).toBe('Errors in Report');
+    
+    
+### Verifying Rule 2
+* should replace an "a" or "A" with "hra"
+    + expect(zombify('Apple a day keeps the doctor away.')).toBe('hrapple hra dhray keeps the doctor hrawhray.');
+    + expect(zombify('Wanna be startin\' somethin\'')).toBe('Whrannhra be sthrartin\' somethin\'');
+    + expect(zombify('Arizona')).toBe('hrarizonhra');
 
-## Starting point
+### Verifying Rule 3
+* should capitalize first char of a sentence
+    + expect(zombify('.!? howdy partner!!!')).toBe('.!? Howdy partner!!!');
+    + expect(zombify('.!? game is over! .!? what do you think?')).toBe('.!? Game is over! .!? What do you think?');
+    + expect(zombify('.!? wait till its over.')).toBe('.!? Wait till its over.');
 
-You can use this repository for a starting point. 
+### Verifying Rule 4
+* should replace an "e" or "E" with "rr"
+    + expect(zombify('Teen')).toBe('Trrrrn');
+    + expect(zombify('TEEVEE')).toBe('TrrrrVrrrr');
+    + expect(zombify('TeE Shirts')).toBe('Trrrr Shirts');
 
-## Submission
+### Verifying Rule 5
+* should replace an "e" or "E" with "rr"
+    + expect(zombify('Diving')).toBe('DrrRrvrrRrng');
+    + expect(zombify('Ice Ice Baby')).toBe('rrRrce rrRrce Baby');
+    + expect(zombify('DIning in Boston')).toBe('DrrRrnrrRrng rrRrn Boston');
 
-Zip up the project when you're done and submit the zip file. 
 
-## Have to use
+### Verifying Rule 6
+* should replace an "o" or "O" with "rrrRr"
+    + expect(zombify('oxygen')).toBe('rrrRrxygen');
+    + expect(zombify('Octopus')).toBe('rrrRrctrrrRrpus');
+    + expect(zombify('October Holidays are cOol')).toBe('rrrRrctrrrRrber HrrrRrlidays are crrrRrrrrRrl');
 
-You have to use RequireJS and Jasmine and Karma. 
 
-Tests need to be run with Karma. Jasmine Tests. On RequireJS modules.
+### Verifying Rule 7
+* should replace an "u" or "U" with "rrrrRr"
+    + expect(zombify('This is unreal')).toBe('This is rrrrRrnreal');
+    + expect(zombify('Uptown girl!')).toBe('rrrrRrptown girl!');
+    + expect(zombify('upcoming US soccer games')).toBe('rrrrRrpcoming rrrrRrS soccer games');
 
-## Extra credit
-*20pts*
+### Verifying Rule 8
+* should replace an "r" or "R" with "RR"
+    + expect(zombify('Are we there yet?')).toBe('ARRe we theRRe yet?');
+    + expect(zombify('Rare pictures')).toBe('RRaRRe pictuRRes');
 
-If you correctly "unzombify" (with tests).
+* should not replace lower case"r" at the end of the words
+    + expect(zombify('Don\'t Fear The Reaper')).toBe('Don\'t Fear The RReaper');
+
+* should replace upper case "r" at the end of the words
+    + expect(zombify('JaguaR Land Rover Engineering')).toBe('JaguaRR Land RRover EngineeRRing');
+
+### Verifying Rule 9
+* should replace an "p" or "P" with "fhh"
+    + expect(zombify('patriots game live')).toBe('fhhatriots game live');
+    + expect(zombify('Pub crawl!')).toBe('fhhub crawl!');
+    + expect(zombify('Pick Your Own Apples')).toBe('fhhick Your Own Afhhfhhles');
+
+
+
+### Verifying Rule 10
+* should replace a "t" or "T" with "TH"
+    + expect(zombify('This is it!')).toBe('THhis is iTH!');
+    + expect(zombify('Downtown Shopping')).toBe('DownTHown Shopping');
+    + expect(zombify('It takes Two to Tango')).toBe('ITH THakes THwo THo THango');
+
+
+### Verifying All Rules
+* should be mutually exclusive and should not interfere
+    + expect(zombify('JaguaR Land Rover Engineering')).toBe('JhragrrrrRrhraRR Lhrand RRrrrRrvrrrh rrngrrRrnrrrrRRrrRrng');
+    + expect(zombify('Peter Piper picked a peck of pickled peppers.')).toBe('fhhrrTHrrrh fhhrrRrfhhrrrh fhhrrRrckrrd hra fhhrrck rrrRrf fhhrrRrcklrrd fhhrrfhhfhhrrRRs.');
+

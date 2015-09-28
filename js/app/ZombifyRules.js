@@ -43,8 +43,8 @@ define(['ZombieRule'], function(ZombieRule){
             return _zombifyRules;
         };
 
-        ZombifyRules.prototype.removeAllRules = function(){
-            _zombifyRules = new Array();
+        ZombifyRules.prototype.addRule = function(matchValue, replaceValue){
+            _zombifyRules.push(new ZombieRule(matchValue, replaceValue));
         };
 
     };

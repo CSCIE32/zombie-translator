@@ -17,11 +17,11 @@ define(['ZombieTranslator', 'ZombifyRules', 'ZombieRule'], function(ZombieTransl
             });
 
             it('should not replace Upper Case "r" at the end of words with "rh"', function(){
-                expect(newZombieTranslator.zombify('faR and neaR')).toBe('faR and neaR'); // Just r
+                expect(newZombieTranslator.zombify('faR and neaR')).toBe('faR and neaR');
             });
 
-            it('should not replace Upper or Lowr Case "r" not at the end of words with "rh"', function(){
-                expect(newZombieTranslator.zombify('Errors in Report')).toBe('Errors in Report'); // Just r
+            it('should not replace Upper or Lower Case "r" not at the end of words with "rh"', function(){
+                expect(newZombieTranslator.zombify('Errors in Report')).toBe('Errors in Report');
             });
 
         });
@@ -30,9 +30,10 @@ define(['ZombieTranslator', 'ZombifyRules', 'ZombieRule'], function(ZombieTransl
         describe('Verify Rule #2: an "a" or "A" is replaced with "hra"', function(){
             var ruleToBeTested = [new ZombieRule(/a/gi, 'hra')];
             var newZombieTranslator = new ZombieTranslator(ruleToBeTested);
-            it('it should replace an "a" or "A" with "hra"', function(){
+            it('should replace an "a" or "A" with "hra"', function(){
                 expect(newZombieTranslator.zombify('Apple a day keeps the doctor away.')).toBe('hrapple hra dhray keeps the doctor hrawhray.');
                 expect(newZombieTranslator.zombify('Wanna be startin\' somethin\'')).toBe('Whrannhra be sthrartin\' somethin\'');
+                expect(newZombieTranslator.zombify('Arizona')).toBe('hrarizonhra');
             });
 
         });
@@ -43,7 +44,7 @@ define(['ZombieTranslator', 'ZombifyRules', 'ZombieRule'], function(ZombieTransl
                 return(a.toUpperCase());
             })];
             var newZombieTranslator = new ZombieTranslator(ruleToBeTested);
-            it('it should capitalize first char of a sentence', function(){
+            it('should capitalize first char of a sentence', function(){
                 expect(newZombieTranslator.zombify('.!? howdy partner!!!')).toBe('.!? Howdy partner!!!');
                 expect(newZombieTranslator.zombify('.!? game is over! .!? what do you think?')).toBe('.!? Game is over! .!? What do you think?');
                 expect(newZombieTranslator.zombify('.!? wait till its over.')).toBe('.!? Wait till its over.');
@@ -116,7 +117,7 @@ define(['ZombieTranslator', 'ZombifyRules', 'ZombieRule'], function(ZombieTransl
                 expect(newZombieTranslator.zombify('Don\'t Fear The Reaper')).toBe('Don\'t Fear The RReaper');
             });
 
-            it('should replace upper case"r" at the end of the words', function(){
+            it('should replace upper case "r" at the end of the words', function(){
                 expect(newZombieTranslator.zombify('JaguaR Land Rover Engineering')).toBe('JaguaRR Land RRover EngineeRRing');
             });
         });
@@ -127,7 +128,7 @@ define(['ZombieTranslator', 'ZombifyRules', 'ZombieRule'], function(ZombieTransl
             var ruleToBeTested = [new ZombieRule(/p/gi, 'fhh')];
             var newZombieTranslator = new ZombieTranslator(ruleToBeTested);
 
-            it('should replace an "p" or "P" with "fhh".', function(){
+            it('should replace an "p" or "P" with "fhh"', function(){
                 expect(newZombieTranslator.zombify('patriots game live')).toBe('fhhatriots game live');
                 expect(newZombieTranslator.zombify('Pub crawl!')).toBe('fhhub crawl!');
                 expect(newZombieTranslator.zombify('Pick Your Own Apples')).toBe('fhhick Your Own Afhhfhhles');
@@ -140,7 +141,7 @@ define(['ZombieTranslator', 'ZombifyRules', 'ZombieRule'], function(ZombieTransl
             var ruleToBeTested = [new ZombieRule(/t/gi, 'TH')];
             var newZombieTranslator = new ZombieTranslator(ruleToBeTested);
 
-            it('should replace an "u" or "U" with "rrrrRr"', function(){
+            it('should replace a "t" or "T" with "TH"', function(){
                 expect(newZombieTranslator.zombify('This is it!')).toBe('THhis is iTH!');
                 expect(newZombieTranslator.zombify('Downtown Shopping')).toBe('DownTHown Shopping');
                 expect(newZombieTranslator.zombify('It takes Two to Tango')).toBe('ITH THakes THwo THo THango');

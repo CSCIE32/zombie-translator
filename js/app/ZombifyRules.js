@@ -6,7 +6,6 @@ define(['ZombieRule'], function(ZombieRule){
         // //8. "r" or "R' is replaced by "RR"`
         _zombifyRules.push(new ZombieRule(/r(?!\b)|R/g , 'RR'));
 
-
         // 1. lower-case "r" at the end of words replaced with "rh".
         _zombifyRules.push(new ZombieRule(/r\b/g, 'rh'));
 

@@ -121,3 +121,11 @@ There a few tests that tests all the rules together.
     + expect(zombify('JaguaR Land Rover Engineering')).toBe('JhragrrrrRrhraRR Lhrand RRrrrRrvrrrh rrngrrRrnrrrrRRrrRrng');
     + expect(zombify('Peter Piper picked a peck of pickled peppers.')).toBe('fhhrrTHrrrh fhhrrRrfhhrrrh fhhrrRrckrrd hra fhhrrck rrrRrf fhhrrRrcklrrd fhhrrfhhfhhrrRRs.');
 
+
+## Unzombify
+This could be a potential game changer in the fight for survival!!! This feature allows to unzombify (translate to english) sentences 
+in zombie. 
+ 
+The rules and the tests for the unzombify module is the exact opposite (or mirror image) of zombify rules. The order in which these rules are applied is a little different.
+The app tries to find a match for the largest pattern. For instance, the zombie pattern 'rrrrRr' is unzombified as 'u' rather than 'ei'. 
+       
